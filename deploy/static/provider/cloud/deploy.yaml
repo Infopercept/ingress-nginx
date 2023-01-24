@@ -374,6 +374,16 @@ spec:
     port: 443
     protocol: TCP
     targetPort: https
+  - appProtocol: https
+    name: 1514-tcp
+    port: 1514
+    protocol: TCP
+    targetPort: 1514
+  - appProtocol: https
+    name: 1515-tcp
+    port: 1515
+    protocol: TCP
+    targetPort: 1515
   selector:
     app.kubernetes.io/component: controller
     app.kubernetes.io/instance: ingress-nginx
@@ -432,6 +442,7 @@ spec:
       containers:
       - args:
         - /nginx-ingress-controller
+        - --tcp-services-configmap=$(POD_NAMESPACE)/ingress-nginx-tcp
         - --publish-service=$(POD_NAMESPACE)/ingress-nginx-controller
         - --election-id=ingress-nginx-leader
         - --controller-class=k8s.io/ingress-nginx
